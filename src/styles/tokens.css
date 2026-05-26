@@ -1,0 +1,159 @@
+/* ============================================================
+   TERM/UI :: DESIGN TOKENS
+   Every color / size / spacing value lives here as a CSS variable.
+   Nothing downstream hard-codes a value. Theme switching is just
+   swapping the [data-theme] block — no JS recolouring needed.
+   ============================================================ */
+
+:root {
+  /* --- Typography ------------------------------------------------ */
+  --tm-font: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Fira Code',
+    'Cascadia Code', Menlo, Consolas, monospace;
+
+  /* snapped modular scale — terminals don't do "smooth" sizes */
+  --tm-text-xs: 11px;
+  --tm-text-sm: 13px;
+  --tm-text-base: 15px;
+  --tm-text-md: 17px;
+  --tm-text-lg: 21px;
+  --tm-text-xl: 27px;
+  --tm-text-2xl: 38px;
+  --tm-text-3xl: 52px;
+
+  --tm-leading-tight: 1.1;
+  --tm-leading-snug: 1.35;
+  --tm-leading-normal: 1.65;
+  --tm-tracking-caps: 0.14em;
+  --tm-tracking-wide: 0.04em;
+
+  /* --- Spacing :: strict 4px character grid --------------------- */
+  --tm-space-1: 4px;
+  --tm-space-2: 8px;
+  --tm-space-3: 12px;
+  --tm-space-4: 16px;
+  --tm-space-5: 24px;
+  --tm-space-6: 32px;
+  --tm-space-7: 48px;
+  --tm-space-8: 64px;
+  --tm-space-9: 96px;
+
+  /* --- Geometry ------------------------------------------------- */
+  --tm-radius: 0px;            /* non-negotiable. no rounded corners. */
+  --tm-border-w: 1px;
+  --tm-grid: 14px;             /* base character cell for backdrops  */
+  --tm-maxw: 1240px;
+  --tm-sidebar-w: 248px;
+  --tm-nav-h: 60px;
+
+  /* --- Motion --------------------------------------------------- */
+  --tm-snap: 80ms steps(1, end);
+  --tm-fast: 120ms linear;
+  --tm-base: 200ms cubic-bezier(0.2, 0, 0, 1);
+
+  /* --- Z-index -------------------------------------------------- */
+  --tm-z-crt: 9000;
+  --tm-z-nav: 100;
+  --tm-z-dropdown: 400;
+  --tm-z-modal: 800;
+  --tm-z-toast: 1200;
+  --tm-z-loading: 9500;
+
+  /* --- Cursor :: pixel-art hand --------------------------------- */
+  --tm-cursor: url("data:image/svg+xml,%3Csvg%20shape-rendering='crispEdges'%20width='24'%20height='24'%20viewBox='0%200%2016%2016'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3E%20%3Cpath%20d='M13.335%206.8551H14.095V12.1901H13.335V6.8551Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M12.5701%2013.7151H4.95505V12.9551H4.19005V13.7151H3.43005V16.0001H14.0951V13.7151H13.3351V12.1901H12.5701V13.7151ZM12.5701%2015.2401H11.0501V14.4751H12.5701V15.2401Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M12.57%206.09509H13.335V6.85509H12.57V6.09509Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M11.05%206.8551H11.81V9.1451H11.05V6.8551Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M11.05%205.33508H12.57V6.09508H11.05V5.33508Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M8.76501%206.8551H9.52501V9.1451H8.76501V6.8551Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M6.47504%206.8551H7.24004V9.1451H6.47504V6.8551Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M6.47504%205.33501H11.05V4.57001H7.24004V0.76001H6.47504V5.33501Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M4.95502%200H6.47502V0.76H4.95502V0Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M4.19005%209.90501H4.95505V0.76001H4.19005V6.09501H3.43005V6.85501H4.19005V9.90501Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M3.43005%2012.1901H4.19005V12.9551H3.43005V12.1901Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M2.67004%2010.665H3.43004V12.19H2.67004V10.665Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M2.67004%206.8551H3.43004V7.6201H2.67004V6.8551Z'%20fill='%23ffffff'/%3E%20%3Cpath%20d='M1.90503%207.62012H2.67003V10.6651H1.90503V7.62012Z'%20fill='%23ffffff'/%3E%20%3C/svg%3E") 8 1;
+}
+
+/* ============================================================
+   THEME :: GREEN  — phosphor P1, the default boot state
+   ============================================================ */
+:root,
+[data-theme='green'] {
+  --tm-bg: #0a0a0a;
+  --tm-bg-elevated: #101410;
+  --tm-bg-inset: #060806;
+  --tm-primary: #33ff00;
+  --tm-primary-rgb: 51, 255, 0;
+  --tm-secondary: #ffb000;
+  --tm-secondary-rgb: 255, 176, 0;
+  --tm-fg: #c6f9b8;          /* readable body text — dimmed phosphor */
+  --tm-dim: #5f8f54;         /* secondary / meta text */
+  --tm-muted: #1f521f;       /* inactive text / faint lines */
+  --tm-border: #214a1c;
+  --tm-border-bright: #2f6e26;
+  --tm-error: #ff3333;
+  --tm-error-rgb: 255, 51, 51;
+  --tm-scanline: rgba(51, 255, 0, 0.04);
+}
+
+/* ============================================================
+   THEME :: AMBER  — phosphor P3, the warm CRT
+   ============================================================ */
+[data-theme='amber'] {
+  --tm-bg: #0c0a06;
+  --tm-bg-elevated: #15110a;
+  --tm-bg-inset: #080603;
+  --tm-primary: #ffb000;
+  --tm-primary-rgb: 255, 176, 0;
+  --tm-secondary: #33ff00;
+  --tm-secondary-rgb: 51, 255, 0;
+  --tm-fg: #f4d79b;
+  --tm-dim: #9a7a3c;
+  --tm-muted: #5c3f12;
+  --tm-border: #5a3f11;
+  --tm-border-bright: #7d5a1c;
+  --tm-error: #ff5630;
+  --tm-error-rgb: 255, 86, 48;
+  --tm-scanline: rgba(255, 176, 0, 0.045);
+}
+
+/* ============================================================
+   THEME :: ICE  — cold phosphor, deep-space console
+   ============================================================ */
+[data-theme='ice'] {
+  --tm-bg: #060810;
+  --tm-bg-elevated: #0c1020;
+  --tm-bg-inset: #04050c;
+  --tm-primary: #7df9ff;
+  --tm-primary-rgb: 125, 249, 255;
+  --tm-secondary: #c4b6ff;
+  --tm-secondary-rgb: 196, 182, 255;
+  --tm-fg: #bfe6ee;
+  --tm-dim: #5e8c98;
+  --tm-muted: #1f4450;
+  --tm-border: #1e4655;
+  --tm-border-bright: #2c6478;
+  --tm-error: #ff5c7c;
+  --tm-error-rgb: 255, 92, 124;
+  --tm-scanline: rgba(125, 249, 255, 0.05);
+}
+
+/* ============================================================
+   THEME :: RED  — DEFCON / red-alert console
+   ============================================================ */
+[data-theme='red'] {
+  --tm-bg: #0c0606;
+  --tm-bg-elevated: #160a0a;
+  --tm-bg-inset: #080303;
+  --tm-primary: #ff3b3b;
+  --tm-primary-rgb: 255, 59, 59;
+  --tm-secondary: #ffb000;
+  --tm-secondary-rgb: 255, 176, 0;
+  --tm-fg: #f6b9b9;
+  --tm-dim: #9a5454;
+  --tm-muted: #5c1f1f;
+  --tm-border: #5e2020;
+  --tm-border-bright: #842e2e;
+  --tm-error: #ff8a3b;
+  --tm-error-rgb: 255, 138, 59;
+  --tm-scanline: rgba(255, 59, 59, 0.05);
+}
+
+/* --- Derived effect tokens (depend on theme primary) ----------- */
+:root {
+  --tm-glow: 0 0 5px rgba(var(--tm-primary-rgb), 0.5);
+  --tm-glow-soft: 0 0 8px rgba(var(--tm-primary-rgb), 0.22);
+  --tm-glow-strong: 0 0 12px rgba(var(--tm-primary-rgb), 0.7);
+  --tm-shadow-pane: 0 0 0 1px var(--tm-border),
+    0 0 24px rgba(var(--tm-primary-rgb), 0.05) inset;
+  --tm-fill-faint: rgba(var(--tm-primary-rgb), 0.08);
+  --tm-fill-soft: rgba(var(--tm-primary-rgb), 0.14);
+}

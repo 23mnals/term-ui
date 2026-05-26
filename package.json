@@ -1,15 +1,44 @@
 {
   "name": "term-ui",
-  "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "description": "TERM/UI — a terminal-CLI styled React component library and showcase site",
+  "description": "Terminal-CLI styled React component library — 20 components, 4 phosphor themes + custom HEX picker.",
+  "keywords": [
+    "react",
+    "component-library",
+    "terminal",
+    "cli",
+    "design-system",
+    "phosphor",
+    "ui"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/23mnals/term-ui.git"
+  },
+  "main": "./dist-lib/term-ui.js",
+  "exports": {
+    ".": {
+      "import": "./dist-lib/term-ui.js"
+    },
+    "./style.css": "./dist-lib/term-ui.css",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "files": [
+    "dist-lib",
+    "src",
+    "docs",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "build:lib": "vite build -c vite.lib.config.js",
+    "preview": "vite preview",
+    "prepare": "npm run build:lib"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"
@@ -17,6 +46,9 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
     "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
     "vite": "^5.4.8"
   }
 }

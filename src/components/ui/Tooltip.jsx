@@ -13,8 +13,8 @@ export function Tooltip({ content, placement = 'top', children, className = '' }
     >
       <span className="tm-tip__trigger">{children}</span>
       <span className="tm-tip__pop" role="tooltip">
+        <span className="tm-tip__text">{content}</span>
         <span className="tm-tip__arrow" aria-hidden="true" />
-        {content}
       </span>
     </span>
   )

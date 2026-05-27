@@ -153,6 +153,98 @@
   font-weight: 700;
 }
 
+/* ── HUD variant ─────────────────────────────────────────── */
+.tm-btn--hud {
+  position: relative;
+  border: 1px solid rgba(var(--btn-accent-rgb), 0.5);
+  box-shadow:
+    0 0 0 3px rgba(var(--btn-accent-rgb), 0.08),
+    var(--tm-glow-soft);
+  text-shadow: var(--tm-glow-soft);
+}
+
+/* corner L-bracket base — shared by all 4 */
+.tm-btn--hud::before,
+.tm-btn--hud::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-color: var(--btn-accent);
+  box-shadow: 0 0 6px rgba(var(--btn-accent-rgb), 0.8);
+  transition: box-shadow var(--tm-fast);
+  z-index: 1;
+}
+.tm-btn--hud::before {   /* top-left */
+  top: -2px; left: -2px;
+  border-width: 2px 0 0 2px;
+}
+.tm-btn--hud::after {    /* bottom-right */
+  bottom: -2px; right: -2px;
+  border-width: 0 2px 2px 0;
+}
+
+/* inner frame span provides the other 2 corners */
+.tm-btn__frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.tm-btn--hud .tm-btn__frame::before {  /* top-right */
+  content: '';
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 8px; height: 8px;
+  border-style: solid;
+  border-color: var(--btn-accent);
+  border-width: 2px 2px 0 0;
+  box-shadow: 0 0 6px rgba(var(--btn-accent-rgb), 0.8);
+  transition: box-shadow var(--tm-fast);
+}
+.tm-btn--hud .tm-btn__frame::after {   /* bottom-left */
+  content: '';
+  position: absolute;
+  bottom: -2px; left: -2px;
+  width: 8px; height: 8px;
+  border-style: solid;
+  border-color: var(--btn-accent);
+  border-width: 0 0 2px 2px;
+  box-shadow: 0 0 6px rgba(var(--btn-accent-rgb), 0.8);
+  transition: box-shadow var(--tm-fast);
+}
+
+/* hover */
+.tm-btn--hud:hover:not(:disabled) {
+  background: rgba(var(--btn-accent-rgb), 0.07);
+  border-color: var(--btn-accent);
+  box-shadow:
+    0 0 0 3px rgba(var(--btn-accent-rgb), 0.2),
+    var(--tm-glow);
+}
+.tm-btn--hud:hover:not(:disabled)::before,
+.tm-btn--hud:hover:not(:disabled)::after {
+  box-shadow: 0 0 12px rgba(var(--btn-accent-rgb), 1);
+}
+.tm-btn--hud:hover:not(:disabled) .tm-btn__frame::before,
+.tm-btn--hud:hover:not(:disabled) .tm-btn__frame::after {
+  box-shadow: 0 0 12px rgba(var(--btn-accent-rgb), 1);
+}
+
+/* disabled */
+.tm-btn--hud:disabled {
+  border-color: rgba(var(--tm-muted), 0.3);
+  box-shadow: none;
+}
+.tm-btn--hud:disabled::before,
+.tm-btn--hud:disabled::after,
+.tm-btn--hud:disabled .tm-btn__frame::before,
+.tm-btn--hud:disabled .tm-btn__frame::after {
+  border-color: var(--tm-muted);
+  box-shadow: none;
+}
+
 /* ------------------------------------------------------------
    CARD  (window / pane)
    ------------------------------------------------------------ */
@@ -235,6 +327,133 @@
   color: var(--tm-dim);
   font-size: var(--tm-text-sm);
 }
+
+/* ── CARD HUD variant ────────────────────────────────────── */
+.tm-card--hud {
+  margin: 22px 0;
+  border: 2px solid var(--tm-primary);      /* outer border */
+  box-shadow:
+    0 0 18px rgba(var(--tm-primary-rgb), 0.45),
+    0 0 40px rgba(var(--tm-primary-rgb), 0.15),
+    inset 0 0 40px rgba(var(--tm-primary-rgb), 0.04);
+}
+
+/* top ▽ notch */
+.tm-card--hud::before {
+  content: '▽';
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px; line-height: 1;
+  color: var(--tm-primary);
+  background: var(--tm-bg-elevated);
+  padding: 0 6px;
+  text-shadow: var(--tm-glow);
+  z-index: 2;
+}
+
+/* bottom △ notch */
+.tm-card--hud::after {
+  content: '△';
+  position: absolute;
+  bottom: -14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px; line-height: 1;
+  color: var(--tm-primary);
+  background: var(--tm-bg-elevated);
+  padding: 0 6px;
+  text-shadow: var(--tm-glow);
+  z-index: 2;
+}
+
+/* ── inner chamfered border — SANDWICH technique ──
+   border-only + clip-path is unreliable cross-browser.
+   Instead: outer filled octagon (border color) + inner "cutout"
+   (card bg color) = visible octagonal border frame.              */
+.tm-card__hud-inner {
+  display: block;
+  position: absolute;
+  inset: 9px;
+  background: rgba(var(--tm-primary-rgb), 0.6);   /* "border" color */
+  clip-path: polygon(
+    15px 0%,  calc(100% - 15px) 0%,
+    100% 15px, 100% calc(100% - 15px),
+    calc(100% - 15px) 100%, 15px 100%,
+    0% calc(100% - 15px), 0% 15px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+/* inner cutout — punches the card background through the center */
+.tm-card__hud-inner::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 1px;
+  background: var(--tm-bg-elevated);
+  clip-path: polygon(
+    14px 0%,  calc(100% - 14px) 0%,
+    100% 14px, 100% calc(100% - 14px),
+    calc(100% - 14px) 100%, 14px 100%,
+    0% calc(100% - 14px), 0% 14px
+  );
+}
+
+/* ── content spacing — clear of inner border (9px inset + 1px + 6px gap) ── */
+.tm-card--hud .tm-card__bar {
+  padding: 16px var(--tm-space-4) 0;
+}
+.tm-card--hud .tm-card__body {
+  padding: var(--tm-space-3) var(--tm-space-4) 16px;
+}
+.tm-card--hud .tm-card__footer {
+  padding-left: var(--tm-space-4);
+  padding-right: var(--tm-space-4);
+  padding-bottom: 16px;
+}
+
+/* ── corner stripe spans — 80×80 block, ::before = h-strip, ::after = v-strip ── */
+.tm-card__hc {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2;
+}
+.tm-card__hc--tl { top: 9px;    left: 9px; }
+.tm-card__hc--tr { top: 9px;    right: 9px; }
+.tm-card__hc--bl { bottom: 9px; left: 9px; }
+.tm-card__hc--br { bottom: 9px; right: 9px; }
+
+/* shared stripe gradient */
+.tm-card__hc::before,
+.tm-card__hc::after {
+  content: '';
+  position: absolute;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0,     transparent 2.5px,
+    rgba(var(--tm-primary-rgb), 0.65) 2.5px,
+    rgba(var(--tm-primary-rgb), 0.65) 4px
+  );
+}
+
+/* TL — h-strip along top, v-strip along left */
+.tm-card__hc--tl::before { top: 0;    left: 15px; width: 50px; height: 9px; }
+.tm-card__hc--tl::after  { top: 15px; left: 0;    width: 9px;  height: 50px; }
+
+/* TR — h-strip along top (goes left), v-strip along right */
+.tm-card__hc--tr::before { top: 0;    right: 15px; width: 50px; height: 9px; }
+.tm-card__hc--tr::after  { top: 15px; right: 0;    width: 9px;  height: 50px; }
+
+/* BL — h-strip along bottom, v-strip along left */
+.tm-card__hc--bl::before { bottom: 0;    left: 15px; width: 50px; height: 9px; }
+.tm-card__hc--bl::after  { bottom: 15px; left: 0;    width: 9px;  height: 50px; }
+
+/* BR — h-strip along bottom (goes left), v-strip along right */
+.tm-card__hc--br::before { bottom: 0;    right: 15px; width: 50px; height: 9px; }
+.tm-card__hc--br::after  { bottom: 15px; right: 0;    width: 9px;  height: 50px; }
 
 /* ------------------------------------------------------------
    FIELD  (shared label / error scaffold for Input + Select)
@@ -844,7 +1063,7 @@
 }
 
 /* ------------------------------------------------------------
-   TOOLTIP
+   TOOLTIP — ASCII terminal style
    ------------------------------------------------------------ */
 .tm-tip {
   position: relative;
@@ -853,6 +1072,8 @@
 .tm-tip__trigger {
   display: inline-flex;
 }
+
+/* popup box */
 .tm-tip__pop {
   position: absolute;
   z-index: var(--tm-z-dropdown);
@@ -862,70 +1083,129 @@
   border: var(--tm-border-w) solid var(--tm-primary);
   color: var(--tm-fg);
   font-size: var(--tm-text-xs);
+  font-family: var(--tm-font);
   box-shadow: var(--tm-glow-soft);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--tm-fast);
+  transition: opacity 120ms ease, transform 120ms ease;
 }
+
+/* > prefix — CLI output feel */
+.tm-tip__text::before {
+  content: '> ';
+  color: var(--tm-primary);
+  opacity: 0.55;
+}
+
+/* terminal flicker on appear */
+@keyframes tm-tip-flicker {
+  0%   { opacity: 0; }
+  25%  { opacity: 0.8; }
+  40%  { opacity: 0.3; }
+  65%  { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
 .tm-tip:hover .tm-tip__pop,
 .tm-tip:focus-within .tm-tip__pop {
   opacity: 1;
+  animation: tm-tip-flicker 180ms steps(1, end);
 }
+
+/* ASCII arrow — base */
 .tm-tip__arrow {
   position: absolute;
-  width: 7px;
-  height: 7px;
-  background: var(--tm-bg-elevated);
-  border: var(--tm-border-w) solid var(--tm-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tm-font);
+  font-size: var(--tm-text-xs);
+  line-height: 1;
+  color: var(--tm-primary);
+  pointer-events: none;
 }
+
+/* ── TOP ── popup above, arrow points ▼ down toward trigger */
 .tm-tip--top .tm-tip__pop {
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 22px);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(4px);
+}
+.tm-tip--top:hover .tm-tip__pop,
+.tm-tip--top:focus-within .tm-tip__pop {
+  transform: translateX(-50%) translateY(0);
 }
 .tm-tip--top .tm-tip__arrow {
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  border-top: none;
-  border-left: none;
-}
-.tm-tip--bottom .tm-tip__pop {
-  top: calc(100% + 8px);
+  bottom: -22px;
   left: 50%;
   transform: translateX(-50%);
+  flex-direction: column;
+  gap: 0;
+}
+.tm-tip--top .tm-tip__arrow::before { content: '│'; }
+.tm-tip--top .tm-tip__arrow::after  { content: '▼'; }
+
+/* ── BOTTOM ── popup below, arrow points ▲ up toward trigger */
+.tm-tip--bottom .tm-tip__pop {
+  top: calc(100% + 22px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+.tm-tip--bottom:hover .tm-tip__pop,
+.tm-tip--bottom:focus-within .tm-tip__pop {
+  transform: translateX(-50%) translateY(0);
 }
 .tm-tip--bottom .tm-tip__arrow {
-  top: -4px;
+  top: -22px;
   left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  border-bottom: none;
-  border-right: none;
+  transform: translateX(-50%);
+  flex-direction: column;
+  gap: 0;
 }
+.tm-tip--bottom .tm-tip__arrow::before { content: '▲'; }
+.tm-tip--bottom .tm-tip__arrow::after  { content: '│'; }
+
+/* ── LEFT ── popup to the left, arrow points ► right toward trigger */
 .tm-tip--left .tm-tip__pop {
-  right: calc(100% + 8px);
+  right: calc(100% + 20px);
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(4px);
+}
+.tm-tip--left:hover .tm-tip__pop,
+.tm-tip--left:focus-within .tm-tip__pop {
+  transform: translateY(-50%) translateX(0);
 }
 .tm-tip--left .tm-tip__arrow {
-  right: -4px;
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
-  border-bottom: none;
-  border-left: none;
-}
-.tm-tip--right .tm-tip__pop {
-  left: calc(100% + 8px);
+  right: -20px;
   top: 50%;
   transform: translateY(-50%);
+  flex-direction: row;
+  gap: 0;
+  letter-spacing: -1px;
+}
+.tm-tip--left .tm-tip__arrow::before { content: '─'; }
+.tm-tip--left .tm-tip__arrow::after  { content: '►'; }
+
+/* ── RIGHT ── popup to the right, arrow points ◄ left toward trigger */
+.tm-tip--right .tm-tip__pop {
+  left: calc(100% + 20px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+.tm-tip--right:hover .tm-tip__pop,
+.tm-tip--right:focus-within .tm-tip__pop {
+  transform: translateY(-50%) translateX(0);
 }
 .tm-tip--right .tm-tip__arrow {
-  left: -4px;
+  left: -20px;
   top: 50%;
-  transform: translateY(-50%) rotate(45deg);
-  border-top: none;
-  border-right: none;
+  transform: translateY(-50%);
+  flex-direction: row;
+  gap: 0;
+  letter-spacing: -1px;
 }
+.tm-tip--right .tm-tip__arrow::before { content: '◄'; }
+.tm-tip--right .tm-tip__arrow::after  { content: '─'; }
 
 /* ------------------------------------------------------------
    ALERT

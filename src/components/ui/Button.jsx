@@ -14,7 +14,7 @@ function useSpinner(active) {
 
 /**
  * Button — terminal command key.
- * variant: primary | default | dashed | ghost | link
+ * variant: primary | default | dashed | ghost | link | hud
  * size:    sm | md | lg
  */
 export function Button({
@@ -32,6 +32,7 @@ export function Button({
 }) {
   const spin = useSpinner(loading)
   const isDisabled = disabled || loading
+  const isHud = variant === 'hud'
 
   const classes = [
     'tm-btn',
@@ -53,6 +54,8 @@ export function Button({
       aria-busy={loading || undefined}
       {...rest}
     >
+      {/* hud variant: inner frame span provides 2 extra pseudo-elements for 4 corner brackets */}
+      {isHud && <span className="tm-btn__frame" aria-hidden="true" />}
       {loading ? (
         <span className="tm-btn__glyph" aria-hidden="true">
           {spin}

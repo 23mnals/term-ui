@@ -10,7 +10,8 @@ import { isValidHex } from '../../theme/colorUtils.js'
  * a full palette and re-themes the whole system.
  */
 export function ThemeSwitcher() {
-  const { theme, setTheme, themes, customColor, setCustomColor } = useTheme()
+  const { theme, setTheme, themes, customColor, setCustomColor, savedColors, saveColor, deleteSavedColor } = useTheme()
+  const isAlreadySaved = savedColors.includes(customColor)
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState(customColor)
   const ref = useRef(null)
@@ -140,6 +141,15 @@ export function ThemeSwitcher() {
               maxLength={7}
               aria-label="hex value"
             />
+            <button
+              type="button"
+              className={['tm-theme__savebtn', isAlreadySaved && 'is-saved'].filter(Boolean).join(' ')}
+              onClick={() => saveColor(customColor)}
+              disabled={!isValidHex(customColor) || isAlreadySaved}
+              aria-label={isAlreadySaved ? 'colour already saved' : 'save colour'}
+            >
+              {isAlreadySaved ? '[✓]' : '[+]'}
+            </button>
           </div>
           <div className="tm-theme__quick" role="group" aria-label="quick colours">
             {QUICK_COLORS.map((c) => (
@@ -153,6 +163,31 @@ export function ThemeSwitcher() {
               />
             ))}
           </div>
+
+          {savedColors.length > 0 && (
+            <>
+              <p className="tm-theme__head" aria-hidden="true">// SAVED</p>
+              <div className="tm-theme__saved" role="group" aria-label="saved colours">
+                {savedColors.map((c) => (
+                  <span key={c} className="tm-theme__swrap">
+                    <button
+                      type="button"
+                      className="tm-theme__qbtn"
+                      style={{ background: c }}
+                      onClick={() => setCustomColor(c)}
+                      aria-label={`use ${c}`}
+                    />
+                    <button
+                      type="button"
+                      className="tm-theme__sdel"
+                      onClick={(e) => { e.stopPropagation(); deleteSavedColor(c) }}
+                      aria-label={`remove ${c}`}
+                    >×</button>
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>

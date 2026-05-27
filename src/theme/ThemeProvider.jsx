@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   useLayoutEffect,
 } from 'react'
@@ -11,6 +12,8 @@ import {
   DEFAULT_CUSTOM_COLOR,
   STORAGE_KEY,
   STORAGE_KEY_CUSTOM,
+  STORAGE_KEY_SAVED,
+  MAX_SAVED_COLORS,
   isValidTheme,
 } from './themes.js'
 import { generatePalette, PALETTE_VARS, isValidHex } from './colorUtils.js'
@@ -34,6 +37,16 @@ export function ThemeProvider({ children }) {
   const [customColor, setCustomColorState] = useState(() =>
     readStored(STORAGE_KEY_CUSTOM, DEFAULT_CUSTOM_COLOR, isValidHex),
   )
+  const [savedColors, setSavedColorsState] = useState(() => {
+    try {
+      const v = localStorage.getItem(STORAGE_KEY_SAVED)
+      if (v) {
+        const parsed = JSON.parse(v)
+        if (Array.isArray(parsed)) return parsed.filter(isValidHex)
+      }
+    } catch { /* fall through */ }
+    return []
+  })
 
   /* apply before paint: data-theme attribute drives presets,
      inline CSS vars drive the computed custom palette */
@@ -75,9 +88,28 @@ export function ThemeProvider({ children }) {
     setThemeState('custom')
   }, [])
 
+  /* persist saved colors to localStorage */
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_SAVED, JSON.stringify(savedColors))
+    } catch { /* best-effort */ }
+  }, [savedColors])
+
+  const saveColor = useCallback((hex) => {
+    if (!isValidHex(hex)) return
+    setSavedColorsState((prev) => {
+      if (prev.includes(hex)) return prev
+      return [hex, ...prev].slice(0, MAX_SAVED_COLORS)
+    })
+  }, [])
+
+  const deleteSavedColor = useCallback((hex) => {
+    setSavedColorsState((prev) => prev.filter((c) => c !== hex))
+  }, [])
+
   return (
     <ThemeContext.Provider
-      value={{ theme, setTheme, cycleTheme, themes: THEMES, customColor, setCustomColor }}
+      value={{ theme, setTheme, cycleTheme, themes: THEMES, customColor, setCustomColor, savedColors, saveColor, deleteSavedColor }}
     >
       {children}
     </ThemeContext.Provider>

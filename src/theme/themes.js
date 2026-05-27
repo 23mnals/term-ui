@@ -44,6 +44,8 @@ export const DEFAULT_THEME = 'green'
 export const DEFAULT_CUSTOM_COLOR = '#b14dff'
 export const STORAGE_KEY = 'term-ui:theme'
 export const STORAGE_KEY_CUSTOM = 'term-ui:custom'
+export const STORAGE_KEY_SAVED = 'term-ui:saved-colors'
+export const MAX_SAVED_COLORS = 8
 
 /* a few off-preset phosphor colours for the quick-pick row */
 export const QUICK_COLORS = ['#b14dff', '#ff3df0', '#9dff00', '#38bdf8', '#ff7a18']

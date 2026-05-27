@@ -325,6 +325,71 @@
   transform: translateY(-1px);
   box-shadow: 0 0 0 1px var(--tm-fg);
 }
+.tm-theme__savebtn {
+  flex-shrink: 0;
+  padding: 0 var(--tm-space-2);
+  height: 32px;
+  font-family: var(--tm-font);
+  font-size: var(--tm-text-xs);
+  color: var(--tm-primary);
+  background: none;
+  border: var(--tm-border-w) solid var(--tm-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  transition: background var(--tm-fast), color var(--tm-fast);
+}
+.tm-theme__savebtn:hover:not(:disabled) {
+  background: var(--tm-primary);
+  color: var(--tm-bg);
+}
+.tm-theme__savebtn:disabled,
+.tm-theme__savebtn.is-saved {
+  opacity: 0.38;
+  cursor: default;
+}
+.tm-theme__saved {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tm-space-2);
+  padding: 0 var(--tm-space-2) var(--tm-space-2);
+}
+.tm-theme__swrap {
+  position: relative;
+  flex: 1;
+  min-width: 22px;
+  max-width: 32px;
+}
+.tm-theme__swrap .tm-theme__qbtn {
+  width: 100%;
+}
+.tm-theme__sdel {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tm-font);
+  font-size: 9px;
+  line-height: 1;
+  background: var(--tm-bg-elevated);
+  border: var(--tm-border-w) solid var(--tm-border);
+  color: var(--tm-dim);
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transition: opacity var(--tm-fast), color var(--tm-fast), border-color var(--tm-fast);
+}
+.tm-theme__swrap:hover .tm-theme__sdel {
+  opacity: 1;
+}
+.tm-theme__sdel:hover {
+  color: var(--tm-error, #ff3b3b);
+  border-color: var(--tm-error, #ff3b3b);
+}
 
 /* --- Sidebar (file tree) ------------------------------------- */
 .tm-side {

@@ -120,6 +120,20 @@ function ButtonDoc() {
       </Demo>
 
       <Demo
+        heading="hud"
+        sig="Button.jsx"
+        code={`<Button variant="hud">arm system</Button>
+<Button variant="hud" size="sm">ping</Button>
+<Button variant="hud" size="lg">deploy</Button>
+<Button variant="hud" danger>self-destruct</Button>`}
+      >
+        <Button variant="hud">arm system</Button>
+        <Button variant="hud" size="sm">ping</Button>
+        <Button variant="hud" size="lg">deploy</Button>
+        <Button variant="hud" danger>self-destruct</Button>
+      </Demo>
+
+      <Demo
         heading="states + icon"
         sig="Button.jsx"
         code={`<Button danger>delete</Button>
@@ -221,10 +235,25 @@ function CardDoc() {
         </Card>
       </Demo>
 
+      <Demo
+        heading="hud"
+        sig="Card.jsx"
+        code={`<Card title="sector.seven" variant="hud" status="OK">
+  Sci-fi HUD frame. Double border with outer glow,
+  hatched corner brackets, and top/bottom center notch arrows.
+</Card>`}
+        align="left"
+      >
+        <Card title="sector.seven" variant="hud" status="OK" className="tm-doc__card">
+          Sci-fi HUD frame. Double border with outer glow, hatched corner brackets,
+          and top/bottom center notch arrows. Tracks the active theme color.
+        </Card>
+      </Demo>
+
       <PropsTable
         rows={[
           { prop: 'title', type: 'string', def: '—', desc: 'pane label; omit for a bare box' },
-          { prop: 'variant', type: 'legend | solid', def: 'legend', desc: 'notched border vs inverted bar' },
+          { prop: 'variant', type: 'legend | solid | hud', def: 'legend', desc: 'notched border / inverted bar / sci-fi HUD frame' },
           { prop: 'status', type: 'OK | ERR | WARN', def: '—', desc: 'status badge, top-right' },
           { prop: 'footer', type: 'ReactNode', def: '—', desc: 'dashed-rule footer strip' },
         ]}

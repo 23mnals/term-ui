@@ -1,5 +1,5 @@
 {
-  "name": "term-ui",
+  "name": "@23mnals/term-ui",
   "version": "0.2.0",
   "type": "module",
   "description": "Terminal-CLI styled React component library — 20 components, 4 phosphor themes + custom HEX picker.",

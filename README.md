@@ -17,21 +17,23 @@ npm run preview  # 预览生产构建
 
 构建产物是纯静态文件，`dist/` 可直接丢到 GitHub Pages / Vercel / 任意静态托管。`vite.config.js` 里 `base: './'` + HashRouter，部署到任意子路径都不会断链。
 
-## 在别的项目里用(npm 包)
+## 在别的项目里用
 
-这个 repo 同时是组件库本身。任何 React 项目这样装:
+**Demo 展示站** → [23mnals.github.io/term-ui](https://23mnals.github.io/term-ui/)
+
+任何 React 项目这样装:
 
 ```bash
-npm install github:23mnals/term-ui#main
+npm install @23mnals/term-ui
 ```
 
-(`#main` = 拉 main 分支最新)然后:
+然后:
 
 ```jsx
 import {
   Button, Modal, Toast, ThemeProvider, ToastProvider, useTheme,
-} from 'term-ui'
-import 'term-ui/style.css'
+} from '@23mnals/term-ui'
+import '@23mnals/term-ui/style.css'
 
 export default function App() {
   return (
@@ -44,7 +46,7 @@ export default function App() {
 }
 ```
 
-更新到最新:`npm update term-ui` 或者直接 `rm -rf node_modules/term-ui && npm install`。
+更新到最新:`npm update @23mnals/term-ui`。
 
 **Peer deps**:`react@^18` + `react-dom@^18`,用到 `Sidebar` 时还要 `react-router-dom@^6`。这些消费方项目自己装。
 
